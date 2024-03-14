@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <script type="module" src="./dist/code-mirror.js"></script>
+    <script type="module">
+      document.getElementById("editor").addEventListener("change", (e) => {
+        console.log(e.detail.code);
+      });
+    </script>
+  </head>
+  <body style="margin: 0px; height: 100vh">
+    <code-mirror
+      id="editor"
+      language="sql"
+      code="SELECT * FROM vals"
+    ></code-mirror>
+  </body>
+</html>

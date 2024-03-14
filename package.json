@@ -1,0 +1,28 @@
+{
+    "name": "code-mirror-web-component",
+    "version": "0.0.5",
+    "type": "module",
+    "author": {
+        "name": "Achille Lacoin"
+    },
+    "files": [
+        "dist"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "serve": "vite",
+        "build": "vite build",
+        "watch": "vite build --watch",
+        "release": "npm run build && npm publish"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.2",
+        "vite": "^5.1.6"
+    },
+    "dependencies": {
+        "lit": "^3.1.2",
+        "@codemirror/language-data": "^6.4.1",
+        "@codemirror/state": "^6.4.1",
+        "codemirror": "^6.0.1"
+    }
+}
