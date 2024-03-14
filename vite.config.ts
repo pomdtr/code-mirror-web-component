@@ -1,9 +1,10 @@
-export default {
+import { defineConfig } from "vite";
+export default defineConfig({
   build: {
     lib: {
       entry: "./src/code-mirror.ts",
-      name: "CodeMirror",
+      formats: ["es"],
       fileName: "code-mirror",
     },
   },
-};
+});
