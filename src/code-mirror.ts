@@ -25,7 +25,7 @@ export class CodeMirror extends LitElement {
     }
   `;
 
-  @property() language = "javascript";
+  @property() language = "";
   @property() code = "";
   @property({ type: Boolean }) readOnly = false;
 
