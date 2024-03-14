@@ -30,12 +30,19 @@ export class CodeMirror extends LitElement {
   @property({ type: Boolean }) readOnly = false;
 
   protected async firstUpdated() {
-    const language = languages.find((l) => l.alias.includes(this.language));
-    if (!language) {
-      throw new Error(`Language javascript not found`);
+    const extensions = [basicSetup];
+    if (this.language) {
+      const language = languages.find((l) => l.alias.includes(this.language));
+      if (language) {
+        const { extension } = await language.load();
+        extensions.push(extension);
+      }
     }
 
-    const { extension } = await language.load();
+    if (this.readOnly) {
+      extensions.push(EditorState.readOnly.of(true));
+    }
+
     const updateListener = EditorView.updateListener.of((update) => {
       this.code = update.state.doc.toString();
       const event = new CustomEvent("change", {
@@ -47,11 +54,8 @@ export class CodeMirror extends LitElement {
       });
       this.dispatchEvent(event);
     });
+    extensions.push(updateListener);
 
-    const extensions = [basicSetup, extension, updateListener];
-    if (this.readOnly) {
-      extensions.push(EditorState.readOnly.of(true));
-    }
     this.view = new EditorView({
       doc: this.code,
       extensions: extensions,
