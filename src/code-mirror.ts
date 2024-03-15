@@ -29,6 +29,11 @@ export class CodeMirror extends LitElement {
       width: 100%;
     }
 
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+
     .cm-editor {
       height: 100%;
       width: 100%;
@@ -90,6 +95,6 @@ export class CodeMirror extends LitElement {
   }
 
   render() {
-    return html`<div ${ref(this.editorRef)}></div>`;
+    return html`<div id="root" ${ref(this.editorRef)}></div>`;
   }
 }
