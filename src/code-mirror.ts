@@ -23,7 +23,8 @@ export class CodeMirror extends LitElement {
   view: EditorView | null = null;
   editorRef = createRef();
   static styles = css`
-    #editor {
+    :host {
+      display: block;
       height: 100%;
       width: 100%;
     }
@@ -89,6 +90,6 @@ export class CodeMirror extends LitElement {
   }
 
   render() {
-    return html`<div id="editor" ${ref(this.editorRef)}></div>`;
+    return html`<div ${ref(this.editorRef)}></div>`;
   }
 }
