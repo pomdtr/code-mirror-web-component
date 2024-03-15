@@ -10,9 +10,9 @@
     ],
     "license": "MIT",
     "scripts": {
-        "serve": "vite",
         "build": "vite build",
         "watch": "vite build --watch",
+        "serve": "vite serve",
         "release": "npm run build && npm publish"
     },
     "devDependencies": {
