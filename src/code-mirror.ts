@@ -5,7 +5,7 @@ import { EditorState, Extension } from "@codemirror/state";
 import { html, css, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ref, createRef } from "lit/directives/ref.js";
-import { indentWithTab } from "@codemirror/commands";
+import { insertTab, indentLess } from "@codemirror/commands";
 import { languages } from "@codemirror/language-data";
 
 const themes = import.meta.glob(
@@ -89,7 +89,20 @@ export class CodeMirror extends LitElement {
       this.dispatchEvent(event);
     });
     extensions.push(updateListener);
-    extensions.push(keymap.of([indentWithTab]));
+    extensions.push(
+      keymap.of([
+        {
+          key: "Tab",
+          preventDefault: true,
+          run: insertTab,
+        },
+        {
+          key: "Shift-Tab",
+          preventDefault: true,
+          run: indentLess,
+        },
+      ])
+    );
 
     this.view = new EditorView({
       doc: this.code,
