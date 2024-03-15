@@ -1,6 +1,6 @@
 {
     "name": "code-mirror-web-component",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "type": "module",
     "author": {
         "name": "Achille Lacoin"
