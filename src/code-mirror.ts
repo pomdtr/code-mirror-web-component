@@ -1,9 +1,22 @@
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState } from "@codemirror/state";
+import { EditorState, Extension } from "@codemirror/state";
 import { html, css, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ref, createRef } from "lit/directives/ref.js";
 import { languages } from "@codemirror/language-data";
+
+const themes = import.meta.glob(
+  "../node_modules/thememirror/dist/themes/*.js"
+) as Record<string, () => Promise<Record<string, Extension>>>;
+async function getTheme(theme: string) {
+  const themeFn = themes[`../node_modules/thememirror/dist/themes/${theme}.js`];
+  if (!themeFn) {
+    return null;
+  }
+
+  const mod = await themeFn();
+  return Object.values(mod)[0];
+}
 
 @customElement("code-mirror")
 export class CodeMirror extends LitElement {
@@ -27,6 +40,7 @@ export class CodeMirror extends LitElement {
 
   @property() language = "";
   @property() code = "";
+  @property() theme = "";
   @property({ type: Boolean }) readOnly = false;
 
   protected async firstUpdated() {
@@ -43,7 +57,18 @@ export class CodeMirror extends LitElement {
       extensions.push(EditorState.readOnly.of(true));
     }
 
+    if (this.theme) {
+      console.log(this.theme);
+      const theme = await getTheme(this.theme);
+      if (theme) {
+        extensions.push(theme);
+      }
+    }
+
     const updateListener = EditorView.updateListener.of((update) => {
+      if (!update.docChanged) {
+        return;
+      }
       this.code = update.state.doc.toString();
       const event = new CustomEvent("change", {
         detail: {
