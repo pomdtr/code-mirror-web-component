@@ -1,8 +1,11 @@
-import { EditorView, basicSetup } from "codemirror";
+import { basicSetup } from "codemirror";
+import { EditorView, keymap } from "@codemirror/view";
+
 import { EditorState, Extension } from "@codemirror/state";
 import { html, css, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ref, createRef } from "lit/directives/ref.js";
+import { indentWithTab } from "@codemirror/commands";
 import { languages } from "@codemirror/language-data";
 
 const themes = import.meta.glob(
@@ -86,6 +89,7 @@ export class CodeMirror extends LitElement {
       this.dispatchEvent(event);
     });
     extensions.push(updateListener);
+    extensions.push(keymap.of([indentWithTab]));
 
     this.view = new EditorView({
       doc: this.code,
