@@ -71,7 +71,7 @@ export class CodeMirror extends LitElement {
         return;
       }
       this.code = update.state.doc.toString();
-      const event = new CustomEvent("change", {
+      const event = new CustomEvent("code-change", {
         detail: {
           code: this.code,
         },
