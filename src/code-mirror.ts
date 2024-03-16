@@ -28,6 +28,7 @@ export class CodeMirror extends LitElement {
   static styles = css`
     :host {
       display: block;
+      overflow: hidden;
       height: 100%;
       width: 100%;
     }
@@ -67,7 +68,6 @@ export class CodeMirror extends LitElement {
     }
 
     if (this.theme) {
-      console.log(this.theme);
       const theme = await getTheme(this.theme);
       if (theme) {
         extensions.push(theme);
@@ -101,7 +101,8 @@ export class CodeMirror extends LitElement {
           preventDefault: true,
           run: indentLess,
         },
-      ])
+      ]),
+      EditorView.lineWrapping
     );
 
     this.view = new EditorView({
