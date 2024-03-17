@@ -28,9 +28,6 @@ export class CodeMirror extends LitElement {
   static styles = css`
     :host {
       display: block;
-      overflow: hidden;
-      height: 100%;
-      width: 100%;
     }
 
     #root {
