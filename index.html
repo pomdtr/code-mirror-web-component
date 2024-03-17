@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script type="module" src="./dist/code-mirror.js"></script>
+    <script type="module" src="./src/code-mirror.ts"></script>
     <script type="module">
       document.getElementById("editor").addEventListener("code-change", (e) => {
         console.log(e.detail.code);
@@ -16,6 +16,5 @@
       language="sql"
       code="SELECT * FROM vals"
     ></code-mirror>
-    <div>Test</div>
   </body>
 </html>
