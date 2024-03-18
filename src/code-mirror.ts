@@ -2,7 +2,7 @@ import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
 
 import { EditorState, Extension } from "@codemirror/state";
-import { html, css, LitElement } from "lit";
+import { html, css, LitElement, PropertyValueMap } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ref, createRef } from "lit/directives/ref.js";
 import { insertTab, indentLess } from "@codemirror/commands";
@@ -46,9 +46,26 @@ export class CodeMirror extends LitElement {
   `;
 
   @property() language = "";
-  @property() code = "";
+  @property()
+  code = "";
   @property() theme = "";
   @property({ type: Boolean }) readOnly = false;
+
+  protected update(
+    changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    super.update(changedProperties);
+
+    if (this.view && changedProperties.has("code")) {
+      this.view.dispatch({
+        changes: {
+          from: 0,
+          to: this.view.state.doc.length,
+          insert: this.code,
+        },
+      });
+    }
+  }
 
   protected async firstUpdated() {
     const extensions = [basicSetup];
