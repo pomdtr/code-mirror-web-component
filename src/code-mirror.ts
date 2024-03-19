@@ -57,6 +57,11 @@ export class CodeMirror extends LitElement {
     super.update(changedProperties);
 
     if (this.view && changedProperties.has("code")) {
+      const viewCode = this.view?.state.doc.toString();
+      if (viewCode === this.code) {
+        return;
+      }
+
       this.view.dispatch({
         changes: {
           from: 0,
@@ -92,6 +97,7 @@ export class CodeMirror extends LitElement {
       if (!update.docChanged) {
         return;
       }
+
       this.code = update.state.doc.toString();
       const event = new CustomEvent("code-change", {
         detail: {
