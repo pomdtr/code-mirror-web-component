@@ -1,12 +1,12 @@
-import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
+import { basicSetup } from "codemirror";
 
-import { EditorState, Extension } from "@codemirror/state";
-import { html, css, LitElement, PropertyValueMap } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { ref, createRef } from "lit/directives/ref.js";
-import { insertTab, indentLess } from "@codemirror/commands";
+import { indentLess, insertTab } from "@codemirror/commands";
 import { languages } from "@codemirror/language-data";
+import { EditorState, Extension, Prec } from "@codemirror/state";
+import { LitElement, PropertyValueMap, css, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { createRef, ref } from "lit/directives/ref.js";
 
 const themes = import.meta.glob(
   "../node_modules/thememirror/dist/themes/*.js"
@@ -50,6 +50,7 @@ export class CodeMirror extends LitElement {
   code = "";
   @property() theme = "";
   @property({ type: Boolean }) readOnly = false;
+  @property({ type: Boolean }) modEnter = false;
 
   protected update(
     changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
@@ -84,6 +85,21 @@ export class CodeMirror extends LitElement {
 
     if (this.readOnly) {
       extensions.push(EditorState.readOnly.of(true));
+    }
+
+    if (!this.modEnter) {
+      extensions.push(
+        Prec.highest(
+          keymap.of([
+            {
+              key: "Mod-Enter",
+              run: (_: EditorView) => {
+                return true;
+              },
+            },
+          ])
+        )
+      );
     }
 
     if (this.theme) {
