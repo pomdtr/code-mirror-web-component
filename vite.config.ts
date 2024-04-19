@@ -3,9 +3,9 @@ export default defineConfig({
   base: "/",
   build: {
     lib: {
-      entry: "./src/code-mirror.ts",
+      entry: ["./src/code-mirror.ts", "./src/json-editor.ts"],
       formats: ["es"],
-      fileName: "code-mirror",
+      fileName: (_, name) => `${name}.js`,
     },
   },
 });
