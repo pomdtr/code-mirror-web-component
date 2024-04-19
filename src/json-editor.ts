@@ -1,7 +1,7 @@
 import { EditorView, keymap } from "@codemirror/view";
 import { basicSetup } from "codemirror";
 
-import { Extension } from "@codemirror/state";
+import { Extension, EditorState } from "@codemirror/state";
 import { html, css, LitElement, PropertyValueMap } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ref, createRef } from "lit/directives/ref.js";
@@ -48,6 +48,9 @@ export class JsonEditor extends LitElement {
   @property({ type: Object })
   schema = {};
   @property()
+  readOnly = false;
+
+  @property()
   url = "";
   @property()
   code = "";
@@ -83,6 +86,9 @@ export class JsonEditor extends LitElement {
       extensions.push(jsonSchema(schema));
     } else {
       extensions.push(jsonSchema(this.schema));
+    }
+    if (this.readOnly) {
+      extensions.push(EditorState.readOnly.of(true));
     }
 
     if (this.theme) {
